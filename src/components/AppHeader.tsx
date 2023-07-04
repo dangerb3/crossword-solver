@@ -1,8 +1,8 @@
 import { Box, Typography, Divider, List, ListItem, ListItemButton, ListItemText, CssBaseline, AppBar, Toolbar, IconButton, Button, Drawer } from '@mui/material';
-import React from 'react'
+import React, { memo } from 'react'
 
 
-export const AppHeader = () => {
+export const AppHeader = memo(() => {
   const navItems: string[] = [];
 
 
@@ -74,4 +74,4 @@ export const AppHeader = () => {
       </Box>
     </Box>
   );
-}
+})

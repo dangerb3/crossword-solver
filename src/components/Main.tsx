@@ -1,12 +1,12 @@
 import { Autocomplete, Button, CardContent, Checkbox, Divider, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { ContentWrapper } from './Main.styled'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { findWord } from '../utils/findWord';
 import vocabulary from '../vocabulary.json'
 
-const Main = () => {
+const Main = memo(() => {
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -34,7 +34,7 @@ const Main = () => {
           sx={{ marginBottom: '16px' }}
         />
 
-        <Autocomplete
+        {/* <Autocomplete
           multiple
           id="letters-kit"
           options={russianAlphabet}
@@ -56,11 +56,21 @@ const Main = () => {
           value={lettersKit}
           onChange={(e, inputLetters) => setLettersKit(inputLetters)}
           sx={{ marginBottom: '16px' }}
+        /> */}
+
+        {/* TODO: add validation */}
+        <TextField
+          id="letters-kit"
+          label="Буквы для составления слова (через запятую)"
+          variant="outlined"
+          value={lettersKit}
+          onChange={(e) => setLettersKit(e.target.value.split(','))}
+          sx={{ marginBottom: '16px' }}
         />
 
         <Button
           onClick={() => {
-            const words = findWord(targetWord.toLocaleString().replaceAll(",", "*"), lettersKit, vocabulary)
+            const words = findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary)
             setAnswerWords(words)
           }}
         >
@@ -108,6 +118,6 @@ const Main = () => {
       </ContentWrapper>
     </div>
   )
-}
+})
 
 export default Main
