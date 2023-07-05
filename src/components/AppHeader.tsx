@@ -1,36 +1,34 @@
-import { Box, Typography, Divider, List, ListItem, ListItemButton, ListItemText, CssBaseline, AppBar, Toolbar, IconButton, Button, Drawer } from '@mui/material';
-import React, { memo } from 'react'
+import { Box, Typography, Divider, List, ListItem, ListItemButton, ListItemText, CssBaseline, AppBar, Toolbar, IconButton, Button, Drawer, OutlinedInput, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import React, { memo, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import { Languages } from '../types/types';
+import { LanguagesStructure } from '../constants/constants';
 
 
 export const AppHeader = memo(() => {
-  const navItems: string[] = [];
+  const { t, i18n } = useTranslation();
+
+  console.log(i18n.language)
+
+  const languageNamesArray = Array.from(LanguagesStructure.keys())
+  const languageObjectsArray = Array.from(LanguagesStructure.values())
 
 
-  const drawer = (
-    <Box sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Crossword solver
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  const currentLanguage = languageNamesArray.find(lang => i18n.language.includes(lang))
 
-  const container = window !== undefined ? () => window.document.body : undefined;
+  console.log('CURRENT', currentLanguage, languageNamesArray)
+
+  const changeLanguage = (language: string) => {
+    i18n.changeLanguage(language)
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar component="nav">
         <Toolbar>
+          <Button onClick={() => changeLanguage('ru')}>Change</Button>
+
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -46,32 +44,26 @@ export const AppHeader = memo(() => {
           >
             Crossword Solver
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={1} sx={{ color: '#fff' }}>
-                {1}
-              </Button>
-            ))}
+          <Box component='nav'>
+            <Select
+              labelId="select-lang-label"
+              id="select-lang"
+              value={currentLanguage ? LanguagesStructure.get(currentLanguage)?.value : languageObjectsArray[0].value}
+              onChange={(e) => changeLanguage(e.target.value as string)}//TODO: improve types
+              //TODO: render flag
+              renderValue={(value) => (<>{value}</>)}
+            >
+              {languageObjectsArray.map((lang, index) => (
+                <MenuItem key={index} value={languageNamesArray[index]} /* sx={{ display: 'flex', flexDirection: 'row' }} */>
+                  <img src={lang.imgPath} width='15px' height='15px' alt='flag' />
+                  &nbsp;&nbsp;
+                  <ListItemText primary={lang.value} />
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
         </Toolbar>
       </AppBar>
-      <Box component="nav">
-        <Drawer
-          container={container}
-          variant="temporary"
-          // open={mobileOpen}
-          // onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        // sx={{
-        //   display: { xs: 'block', sm: 'none' },
-        //   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-        // }}
-        >
-          {drawer}
-        </Drawer>
-      </Box>
     </Box>
   );
 })

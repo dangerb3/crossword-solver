@@ -5,6 +5,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { findWord } from '../utils/findWord';
 import vocabulary from '../vocabulary.json'
+import { useTranslation } from 'react-i18next';
 
 const Main = memo(() => {
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -14,6 +15,11 @@ const Main = memo(() => {
   const [lettersKit, setLettersKit] = useState(["и", "и", "с", "с", "п", "а", "н", "е"])
   const [answerWords, setAnswerWords] = useState<string[]>([])
 
+
+
+  const { t, i18n } = useTranslation();
+
+  //TODO: add english alphabet and examples
   const russianAlphabet = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'э', 'ю', 'я']
 
   return (
@@ -23,7 +29,7 @@ const Main = memo(() => {
       >
         <TextField
           id="letters-count"
-          label="Количество букв в слове"
+          label={t("main.targetLettersCount")}
           variant="outlined"
           value={targetWord.length}
           onChange={(e) => {
@@ -61,7 +67,7 @@ const Main = memo(() => {
         {/* TODO: add validation */}
         <TextField
           id="letters-kit"
-          label="Буквы для составления слова (через запятую)"
+          label={t('main.lettersKit')}
           variant="outlined"
           value={lettersKit}
           onChange={(e) => setLettersKit(e.target.value.split(','))}
@@ -74,7 +80,7 @@ const Main = memo(() => {
             setAnswerWords(words)
           }}
         >
-          Найти
+          {t('main.findButton')}
         </Button>
       </CardContent>
 
@@ -109,7 +115,7 @@ const Main = memo(() => {
             value={answerWords}
             readOnly
             renderInput={(params) => (
-              <TextField {...params} label="Возможные слова" />
+              <TextField {...params} label={t('main.possibleAnswerWords')} />
             )}
             freeSolo
           />
