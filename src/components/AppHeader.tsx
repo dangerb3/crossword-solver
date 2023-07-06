@@ -12,6 +12,8 @@ type AppHeaderProps = {
 
 export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderProps) => {
 
+  //TODO: add version auto updating
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
