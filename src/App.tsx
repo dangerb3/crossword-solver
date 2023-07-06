@@ -12,7 +12,6 @@ function App() {
     i18n.changeLanguage(language)
   }
 
-
   return (
     <div className="App">
       <Suspense fallback={<CircularProgress />}>

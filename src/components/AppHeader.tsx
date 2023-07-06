@@ -63,8 +63,7 @@ export const AppHeader = memo(() => {
             >
               {languageObjectsArray.map((lang, index) => (
                 <MenuItem key={index} value={languageNamesArray[index]} /* sx={{ display: 'flex', flexDirection: 'row' }} */>
-                  <img src={lang.imgPath} width='15px' height='15px' alt='flag' />
-                  &nbsp;&nbsp;
+                  <img src={lang.imgPath} width='15px' height='15px' style={{ marginRight: '5px' }} alt='flag' />
                   <ListItemText primary={lang.value} />
                 </MenuItem>
               ))}

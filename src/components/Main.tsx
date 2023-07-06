@@ -1,21 +1,26 @@
-import { Autocomplete, Button, CardContent, Checkbox, Divider, TextField } from '@mui/material'
-import React, { memo, useState } from 'react'
+import { Autocomplete, CardContent, Divider, TextField } from '@mui/material'
+import React, { memo, useEffect, useState } from 'react'
 import { ContentWrapper } from './Main.styled'
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+// import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+// import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { findWord } from '../utils/findWord';
 import vocabulary from '../vocabulary.json'
 import { useTranslation } from 'react-i18next';
+import debounce from 'lodash.debounce';
 
 const Main = memo(() => {
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-  const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
   const [targetWord, setTargetWord] = useState(['', 'о', ''])
   const [lettersKit, setLettersKit] = useState(["и", "и", "с", "с", "п", "а", "н", "е"])
+
   const [answerWords, setAnswerWords] = useState<string[]>([])
 
+  useEffect(() => {
+    const debouncedFindWord = debounce(() => {
+      setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary));
+    }, 500);
 
+    debouncedFindWord();
+  }, [targetWord, lettersKit])
 
   const { t, i18n } = useTranslation();
 
@@ -71,20 +76,17 @@ const Main = memo(() => {
           variant="outlined"
           value={lettersKit}
           onChange={(e) => setLettersKit(e.target.value.split(','))}
-          sx={{ marginBottom: '16px' }}
         />
 
-        <Button
+        {/* <Button
           onClick={() => {
             const words = findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary)
             setAnswerWords(words)
           }}
         >
           {t('main.findButton')}
-        </Button>
+        </Button> */}
       </CardContent>
-
-      <Divider />
 
       <ContentWrapper
         style={{ width: '100%', display: 'flex', gap: '5px', justifyContent: 'center', flexWrap: 'wrap' }}
@@ -106,8 +108,10 @@ const Main = memo(() => {
         )}
       </ContentWrapper>
 
-      <ContentWrapper style={{ margin: 'auto', width: '70%' }}>
-        {(answerWords.length) ?
+      <Divider />
+
+      <ContentWrapper style={{ margin: 'auto', width: '70%', marginTop: '22px' }}>
+        {(answerWords?.length && !answerWords.every(item => item === '')) ?
           <Autocomplete
             multiple
             id="answer-words"
