@@ -1,3 +1,8 @@
 {
-  "text": "текст"
+  "main": {
+    "targetLettersCount": "Letters count in the word",
+    "lettersKit": "Letters to find the word (separated by commas)",
+    "findButton": "Find",
+    "possibleAnswerWords": "Possible words"
+  }
 }

@@ -48,10 +48,18 @@ export const AppHeader = memo(() => {
             <Select
               labelId="select-lang-label"
               id="select-lang"
-              value={currentLanguage ? LanguagesStructure.get(currentLanguage)?.value : languageObjectsArray[0].value}
+              size='small'
+              variant='outlined'
+              sx={{ border: '0px' }}
+              value={currentLanguage ? LanguagesStructure.get(currentLanguage) : languageObjectsArray[0]}
               onChange={(e) => changeLanguage(e.target.value as string)}//TODO: improve types
               //TODO: render flag
-              renderValue={(value) => (<>{value}</>)}
+              renderValue={(lang) => (
+                <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: '15px' }}>
+                  <img src={lang.imgPath} style={{ marginRight: '5px' }} alt='flag' />
+                  {lang.value}
+                </Box>
+              )}
             >
               {languageObjectsArray.map((lang, index) => (
                 <MenuItem key={index} value={languageNamesArray[index]} /* sx={{ display: 'flex', flexDirection: 'row' }} */>
