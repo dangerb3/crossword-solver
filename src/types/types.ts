@@ -10,6 +10,6 @@ export enum Languages {
 
 export type LanguagesType = {
   imgPath: string,
-  value: string 
+  value: string,
+  validation: RegExp
 }
-

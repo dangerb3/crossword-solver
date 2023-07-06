@@ -1,31 +1,49 @@
 import { Autocomplete, CardContent, Divider, TextField } from '@mui/material'
-import React, { memo, useEffect, useState } from 'react'
+import React, { SyntheticEvent, memo, useEffect, useState } from 'react'
 import { ContentWrapper } from './Main.styled'
 // import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 // import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { findWord } from '../utils/findWord';
-import vocabulary from '../vocabulary.json'
-import { useTranslation } from 'react-i18next';
+import vocabularyRu from '../vocabulary_ru.json'
 import debounce from 'lodash.debounce';
+import { TFunction } from 'i18next';
+import { Languages } from '../types/types';
+import { LanguagesStructure } from '../constants/constants';
 
-const Main = memo(() => {
+type MainProps = {
+  changeLanguage: (language: Languages) => void,
+  locale: TFunction<"translation", undefined>,
+  currentLanguage: Languages
+}
+
+const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   const [targetWord, setTargetWord] = useState(['', 'о', ''])
   const [lettersKit, setLettersKit] = useState(["и", "и", "с", "с", "п", "а", "н", "е"])
+  const [lettersKitInputValue, setLettersKitInputValue] = useState('')
+
 
   const [answerWords, setAnswerWords] = useState<string[]>([])
 
   useEffect(() => {
     const debouncedFindWord = debounce(() => {
-      setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary));
+      setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabularyRu as []));
     }, 500);
 
     debouncedFindWord();
   }, [targetWord, lettersKit])
 
-  const { t, i18n } = useTranslation();
-
   //TODO: add english alphabet and examples
   const russianAlphabet = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'э', 'ю', 'я']
+
+  const handleChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string[]) => {
+    setLettersKit(value)
+  }
+
+  const handleInputChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string) => {
+    const validationRule = LanguagesStructure.get(currentLanguage)?.validation
+
+    if ((validationRule && value.match(validationRule))) { setLettersKit(prev => [...prev, value]); setLettersKitInputValue('') }
+  }
 
   return (
     <div style={{ marginTop: '100px' }}>
@@ -34,7 +52,7 @@ const Main = memo(() => {
       >
         <TextField
           id="letters-count"
-          label={t("main.targetLettersCount")}
+          label={locale("main.targetLettersCount")}
           variant="outlined"
           value={targetWord.length}
           onChange={(e) => {
@@ -44,7 +62,6 @@ const Main = memo(() => {
           }}
           sx={{ marginBottom: '16px' }}
         />
-
         {/* <Autocomplete
           multiple
           id="letters-kit"
@@ -69,13 +86,27 @@ const Main = memo(() => {
           sx={{ marginBottom: '16px' }}
         /> */}
 
-        {/* TODO: add validation */}
-        <TextField
+        {/* <TextField
           id="letters-kit"
-          label={t('main.lettersKit')}
+          label={locale('main.lettersKit')}
           variant="outlined"
           value={lettersKit}
-          onChange={(e) => setLettersKit(e.target.value.split(','))}
+          onChange={handleChangeLettersKit}
+        /> */}
+
+        <Autocomplete
+          multiple
+          id="letters-kit"
+          options={russianAlphabet}
+          getOptionLabel={(option) => option}
+          value={lettersKit}
+          renderInput={(params) => (
+            <TextField {...params} label={locale('main.lettersKit')} />
+          )}
+          onInputChange={handleInputChangeLettersKit}
+          onChange={handleChangeLettersKit}
+          inputValue={lettersKitInputValue}
+          freeSolo
         />
 
         {/* <Button
@@ -84,7 +115,7 @@ const Main = memo(() => {
             setAnswerWords(words)
           }}
         >
-          {t('main.findButton')}
+          {locale('main.findButton')}
         </Button> */}
       </CardContent>
 
@@ -119,7 +150,7 @@ const Main = memo(() => {
             value={answerWords}
             readOnly
             renderInput={(params) => (
-              <TextField {...params} label={t('main.possibleAnswerWords')} />
+              <TextField {...params} label={locale('main.possibleAnswerWords')} />
             )}
             freeSolo
           />
