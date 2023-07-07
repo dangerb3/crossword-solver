@@ -45,10 +45,12 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     if ((validationRule && value.match(validationRule))) { setLettersKit(prev => [...prev, value]); setLettersKitInputValue('') }
   }
 
+  // TODO: add responsiveness on desktop (reduce width)
+
   return (
     <div style={{ marginTop: '100px' }}>
       <CardContent
-        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '70%', margin: 'auto' }}
+        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '90%', margin: 'auto' }}
       >
         <TextField
           id="letters-count"
@@ -141,7 +143,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
 
       <Divider />
 
-      <ContentWrapper style={{ margin: 'auto', width: '70%', marginTop: '22px' }}>
+      <ContentWrapper style={{ margin: 'auto', width: '90%', marginTop: '22px' }}>
         {(answerWords?.length && !answerWords.every(item => item === '')) ?
           <Autocomplete
             multiple
