@@ -143,7 +143,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
       <ContentWrapper
         style={{ width: '100%', display: 'flex', gap: '5px', justifyContent: 'center', flexWrap: 'wrap' }}
       >
-        {targetWord.map((item, index) =>
+        {targetWord.map((item, index) =>// TODO: validation: only words from letters kit can be here
           <TextField
             key={index}
             size='small'
