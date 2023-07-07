@@ -1,4 +1,4 @@
-import { Box, Typography, ListItemText, CssBaseline, AppBar, Toolbar, Select, MenuItem, } from '@mui/material';
+import { Box, Typography, ListItemText, AppBar, Toolbar, Select, MenuItem, } from '@mui/material';
 import React, { memo, } from 'react'
 import { Languages } from '../types/types';
 import { LanguagesStructure, languageNamesArray, languageObjectsArray } from '../constants/constants';
@@ -11,8 +11,6 @@ type AppHeaderProps = {
 }
 
 export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderProps) => {
-
-  //TODO: add version auto updating
 
   return (
     <AppBar component="nav">

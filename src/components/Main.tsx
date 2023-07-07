@@ -43,6 +43,8 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     getVocabulary()
   }, [])
 
+  //TODO: sort imports
+
   useEffect(() => {
     const debouncedFindWord = debounce(() => {
       setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary));
@@ -51,8 +53,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     debouncedFindWord();
   }, [targetWord, lettersKit, vocabulary])
 
-  //TODO: add english alphabet and examples
-  const russianAlphabet = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'э', 'ю', 'я']
+  //TODO: add english examples
 
   const handleChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string[]) => {
     setLettersKit(value)
@@ -118,7 +119,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
         <Autocomplete
           multiple
           id="letters-kit"
-          options={russianAlphabet}  // disable options appear
+          options={[]}
           getOptionLabel={(option) => option}
           value={lettersKit}
           renderInput={(params) => (
