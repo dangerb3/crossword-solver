@@ -4,11 +4,13 @@ import { ContentWrapper } from './Main.styled'
 // import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 // import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { findWord } from '../utils/findWord';
-import vocabularyRu from '../vocabulary_ru.json'
 import debounce from 'lodash.debounce';
 import { TFunction } from 'i18next';
 import { Languages } from '../types/types';
 import { LanguagesStructure } from '../constants/constants';
+import { strFromU8, decompressSync } from 'fflate';
+import axios from 'axios';
+
 
 type MainProps = {
   changeLanguage: (language: Languages) => void,
@@ -17,20 +19,37 @@ type MainProps = {
 }
 
 const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
+  const [vocabulary, setVocabulary] = useState([])
   const [targetWord, setTargetWord] = useState(['', 'о', ''])
   const [lettersKit, setLettersKit] = useState(["и", "и", "с", "с", "п", "а", "н", "е"])
   const [lettersKitInputValue, setLettersKitInputValue] = useState('')
 
-
   const [answerWords, setAnswerWords] = useState<string[]>([])
 
   useEffect(() => {
+    const getVocabulary = async () => {
+      const parse = (bin: any) => {
+        return strFromU8(decompressSync(new Uint8Array(bin)));
+      }
+
+      const { data } = await axios.get(`./locales/${currentLanguage}/vocabulary_${currentLanguage}.json.gz`, {
+        responseType: 'arraybuffer', // important
+        decompress: true,
+      });
+
+      setVocabulary(JSON.parse(parse(data)))
+    }
+
+    getVocabulary()
+  }, [])
+
+  useEffect(() => {
     const debouncedFindWord = debounce(() => {
-      setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabularyRu as []));
+      setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary));
     }, 500);
 
     debouncedFindWord();
-  }, [targetWord, lettersKit])
+  }, [targetWord, lettersKit, vocabulary])
 
   //TODO: add english alphabet and examples
   const russianAlphabet = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'э', 'ю', 'я']
@@ -99,7 +118,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
         <Autocomplete
           multiple
           id="letters-kit"
-          options={russianAlphabet}
+          options={russianAlphabet}  // disable options appear
           getOptionLabel={(option) => option}
           value={lettersKit}
           renderInput={(params) => (
