@@ -13,16 +13,16 @@ type AppHeaderProps = {
 export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderProps) => {
 
   return (
-    <AppBar component="nav">
-      <Toolbar>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, display: { xs: 'block', sm: 'block' } }}
-        >
-          Crossword Solver
-        </Typography> {/* TODO: LOGO CENTER */}
-        <Box component='nav'>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'block', sm: 'block' } }}
+          >
+            Crossword Solver
+          </Typography> {/* TODO: LOGO CENTER */}
           <Select
             labelId="select-lang-label"
             id="select-lang"
@@ -45,8 +45,8 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
               </MenuItem>
             ))}
           </Select>
-        </Box>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 })
