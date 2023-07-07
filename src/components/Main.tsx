@@ -33,7 +33,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
       }
 
       const { data } = await axios.get(`./locales/${currentLanguage}/vocabulary_${currentLanguage}.json.gz`, {
-        responseType: 'arraybuffer', // important
+        responseType: 'arraybuffer',
         decompress: true,
       });
 
@@ -72,7 +72,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
         sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '90%', margin: 'auto' }}
       >
         <TextField
-          id="letters-count"
+          id="letters-count" // TODO: change input type
           label={locale("main.targetLettersCount")}
           variant="outlined"
           value={targetWord.length}
@@ -129,15 +129,6 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
           inputValue={lettersKitInputValue}
           freeSolo
         />
-
-        {/* <Button
-          onClick={() => {
-            const words = findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary)
-            setAnswerWords(words)
-          }}
-        >
-          {locale('main.findButton')}
-        </Button> */}
       </CardContent>
 
       <ContentWrapper

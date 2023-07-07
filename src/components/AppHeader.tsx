@@ -16,7 +16,6 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
       <AppBar component="nav">
         <Toolbar>
           <Typography
