@@ -1,8 +1,6 @@
 import { Autocomplete, CardContent, Divider, TextField } from '@mui/material'
 import React, { SyntheticEvent, memo, useEffect, useState } from 'react'
 import { ContentWrapper } from './Main.styled'
-// import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-// import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { findWord } from '../utils/findWord';
 import debounce from 'lodash.debounce';
 import { TFunction } from 'i18next';
@@ -73,48 +71,18 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
         sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '90%', margin: 'auto' }}
       >
         <TextField
-          id="letters-count" // TODO: change input type
+          id="letters-count"
+          type="number"
           label={locale("main.targetLettersCount")}
           variant="outlined"
-          value={targetWord.length}
+          value={targetWord.length || ''}
           onChange={(e) => {
             const value = Number(e.target.value)
-            if (value <= 17)
+            if (value >= 0 && value <= 17)
               setTargetWord(Array(Number(value)).fill(''))
           }}
           sx={{ marginBottom: '16px' }}
         />
-        {/* <Autocomplete
-          multiple
-          id="letters-kit"
-          options={russianAlphabet}
-          disableCloseOnSelect
-          renderOption={(props, option, { selected }) => (
-            <li {...props}>
-              <Checkbox
-                icon={icon}
-                checkedIcon={checkedIcon}
-                style={{ marginRight: 8 }}
-                checked={selected}
-              />
-              {option}
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField {...params} label="Буквы для составления слова" />
-          )}
-          value={lettersKit}
-          onChange={(e, inputLetters) => setLettersKit(inputLetters)}
-          sx={{ marginBottom: '16px' }}
-        /> */}
-
-        {/* <TextField
-          id="letters-kit"
-          label={locale('main.lettersKit')}
-          variant="outlined"
-          value={lettersKit}
-          onChange={handleChangeLettersKit}
-        /> */}
 
         <Autocomplete
           multiple
