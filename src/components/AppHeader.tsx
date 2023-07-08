@@ -23,7 +23,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
           >
             Crossword Solver
           </Typography> {/* TODO: LOGO CENTER */}
-          <Select
+          {/* <Select
             labelId="select-lang-label"
             id="select-lang"
             size='small'
@@ -44,7 +44,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
                 <ListItemText primary={lang.value} />
               </MenuItem>
             ))}
-          </Select>
+          </Select> */}
         </Toolbar>
       </AppBar>
     </Box>
