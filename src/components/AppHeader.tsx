@@ -13,7 +13,7 @@ type AppHeaderProps = {
 export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderProps) => {
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, maxHeight: '48px' }}>
       <AppBar position="static">
         <Toolbar variant='dense'>
           <Typography
