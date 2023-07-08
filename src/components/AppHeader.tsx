@@ -15,7 +15,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar variant='dense'>
+        <Toolbar>
           <Typography
             variant="h6"
             component="div"
@@ -47,6 +47,6 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
           </Select>
         </Toolbar>
       </AppBar>
-    </Box>
+    </Box >
   );
 })
