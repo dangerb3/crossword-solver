@@ -22,7 +22,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
             sx={{ flexGrow: 1, display: { xs: 'block', sm: 'block' } }}
           >
             Crossword Solver
-          </Typography> {/* TODO: LOGO CENTER */}
+          </Typography>
           <Select
             labelId="select-lang-label"
             id="select-lang"
@@ -38,7 +38,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
               </Box>
             )}
           >
-            {languageObjectsArray.map((lang, index) => ( // TODO: add menu: lang, theme change and about
+            {languageObjectsArray.map((lang, index) => (
               <MenuItem key={index} value={languageNamesArray[index]}>
                 <img src={lang.imgPath} style={{ marginRight: '5px' }} alt='flag' />
                 <ListItemText primary={lang.value} />
