@@ -16,7 +16,6 @@ export function findWord(targetWord: string, lettersKit: string[], vocabulary: s
   }, {});
 
   targetWord = targetWord.toLocaleLowerCase().replaceAll("*", ".");
-  //
 
   const targetWordMask = [];
   for (let i = 0; i < targetWord.length; i++) {

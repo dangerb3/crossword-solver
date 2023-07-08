@@ -1,8 +1,9 @@
 {
   "main": {
     "targetLettersCount": "Letters count in the word",
-    "lettersKit": "Letters to find the word (separated by commas)",
+    "lettersKit": "Letters to find the word",
     "findButton": "Find",
-    "possibleAnswerWords": "Possible words"
+    "possibleAnswerWords": "Possible words",
+    "nothingFound": "Nothing Found"
   }
 }

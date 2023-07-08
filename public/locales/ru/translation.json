@@ -1,8 +1,9 @@
 {
   "main": {
     "targetLettersCount": "Количество букв в слове",
-    "lettersKit": "Буквы для составления слова (через запятую)",
+    "lettersKit": "Буквы для составления слова",
     "findButton": "Найти",
-    "possibleAnswerWords": "Возможные слова"
+    "possibleAnswerWords": "Возможные слова",
+    "nothingFound": "Не найдено"
   }
 }

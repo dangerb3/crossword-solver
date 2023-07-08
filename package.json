@@ -1,6 +1,6 @@
 {
   "name": "crossword-solver",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "private": true,
   "dependencies": {
     "@fontsource/roboto": "^5.0.4",
@@ -16,7 +16,8 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^13.0.1",
     "react-scripts": "5.0.1",
-    "styled-components": "^6.0.2"
+    "styled-components": "^6.0.2",
+    "ts-pattern": "^5.0.1"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
