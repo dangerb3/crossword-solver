@@ -40,13 +40,13 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
           >
             {languageObjectsArray.map((lang, index) => ( // TODO: add menu: lang, theme change and about
               <MenuItem key={index} value={languageNamesArray[index]}>
-                <img src={lang.imgPath} width='15px' height='15px' style={{ marginRight: '5px' }} alt='flag' />
+                <img src={lang.imgPath} style={{ marginRight: '5px' }} alt='flag' />
                 <ListItemText primary={lang.value} />
               </MenuItem>
             ))}
           </Select>
         </Toolbar>
       </AppBar>
-    </Box>
+    </Box >
   );
 })

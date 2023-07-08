@@ -1,4 +1,4 @@
-import { Autocomplete, CardContent, Divider, TextField } from '@mui/material'
+import { Autocomplete, CardContent, Container, Divider, TextField } from '@mui/material'
 import React, { SyntheticEvent, memo, useEffect, useState } from 'react'
 import { ContentWrapper } from './Main.styled'
 import { findWord } from '../utils/findWord';
@@ -66,10 +66,9 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   // TODO: add responsiveness on desktop (reduce width)
 
   return (
-    <div style={{ marginTop: '100px' }}>
+    <Container maxWidth="md" sx={{ marginTop: '50px', padding: 0 }}>
       <CardContent
-        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '90%', margin: 'auto' }}
-      >
+        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <TextField
           id="letters-count"
           type="number"
@@ -122,7 +121,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
 
       <Divider />
 
-      <ContentWrapper style={{ margin: 'auto', width: '90%', marginTop: '22px' }}>
+      <ContentWrapper style={{ marginTop: '22px' }}>
         {(answerWords?.length && !answerWords.every(item => item === '')) ?
           <Autocomplete
             multiple
@@ -138,7 +137,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
           : null
         }
       </ContentWrapper>
-    </div>
+    </Container >
   )
 })
 
