@@ -15,7 +15,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar variant='dense'>
           <Typography
             variant="h6"
             component="div"
@@ -28,7 +28,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
             id="select-lang"
             size='small'
             variant='outlined'
-            sx={{ border: '0px' }}
+            sx={{ border: '0px', height: 'inherited' }}
             value={currentLanguage ? LanguagesStructure.get(currentLanguage) : languageObjectsArray[0]}
             onChange={(e) => changeLanguage(e.target.value as Languages)}
             renderValue={(lang) => (

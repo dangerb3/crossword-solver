@@ -66,7 +66,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   // TODO: add responsiveness on desktop (reduce width)
 
   return (
-    <Container maxWidth="md" sx={{ height: '100%', marginTop: '50px', padding: 0 }}>
+    <Container maxWidth="md" sx={{ marginTop: '50px', padding: 0 }}>
       <CardContent
         sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <TextField
