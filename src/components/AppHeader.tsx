@@ -13,7 +13,7 @@ type AppHeaderProps = {
 export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderProps) => {
 
   return (
-    <Box sx={{ flexGrow: 1, maxHeight: '48px' }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar variant='dense'>
           <Typography
@@ -28,7 +28,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
             id="select-lang"
             size='small'
             variant='outlined'
-            sx={{ border: '0px', height: '48px' }}
+            sx={{ border: '0px' }}
             value={currentLanguage ? LanguagesStructure.get(currentLanguage) : languageObjectsArray[0]}
             onChange={(e) => changeLanguage(e.target.value as Languages)}
             renderValue={(lang) => (
@@ -40,7 +40,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
           >
             {languageObjectsArray.map((lang, index) => ( // TODO: add menu: lang, theme change and about
               <MenuItem key={index} value={languageNamesArray[index]}>
-                <img src={lang.imgPath} style={{ marginRight: '5px', width: "15px", height: '15px' }} alt='flag' />
+                <img src={lang.imgPath} style={{ marginRight: '5px' }} alt='flag' />
                 <ListItemText primary={lang.value} />
               </MenuItem>
             ))}
