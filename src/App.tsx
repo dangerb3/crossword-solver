@@ -22,7 +22,6 @@ function App() {
         <AppHeader changeLanguage={changeLanguage} locale={t} currentLanguage={currentLanguage} />
         <Main changeLanguage={changeLanguage} locale={t} currentLanguage={currentLanguage} />
       </Suspense>
-
     </div>
   );
 }
