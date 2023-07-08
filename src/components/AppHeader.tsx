@@ -28,7 +28,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
             id="select-lang"
             size='small'
             variant='outlined'
-            sx={{ border: '0px', height: 'inherited' }}
+            sx={{ border: '0px', height: '48px' }}
             value={currentLanguage ? LanguagesStructure.get(currentLanguage) : languageObjectsArray[0]}
             onChange={(e) => changeLanguage(e.target.value as Languages)}
             renderValue={(lang) => (
