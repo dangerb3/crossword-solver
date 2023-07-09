@@ -9,7 +9,7 @@ export enum Languages {
 }
 
 export type LanguagesType = {
-  imgPath: string,
+  flag: () => React.JSX.Element,
   value: string,
   validation: RegExp
 }

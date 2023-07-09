@@ -1,13 +1,13 @@
-import { Autocomplete, CardContent, CircularProgress, Container, Box, Divider, TextField, Typography } from '@mui/material'
+import { Autocomplete, CircularProgress, Box, Divider, TextField, Typography } from '@mui/material'
 import React, { SyntheticEvent, memo, useEffect, useMemo, useState } from 'react'
-import { ContentWrapper } from './Main.styled'
-import { findWord } from '../utils/findWord';
+import { ContentWrapper, StyledCardContent, StyledContainer } from './styles'
+import { findWord } from '../../utils/findWord';
 import debounce from 'lodash.debounce';
 import { TFunction } from 'i18next';
-import { Languages } from '../types/types';
-import { LanguagesStructure } from '../constants/constants';
+import { Languages } from '../../types/types';
+import { LanguagesStructure } from '../../constants/constants';
 import { match, P } from 'ts-pattern';
-import { getVocabulary } from '../utils/getVocabulary';
+import { getVocabulary } from '../../utils/getVocabulary';
 
 type MainProps = {
   changeLanguage: (language: Languages) => void,
@@ -96,6 +96,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
         .with([false, false], () =>
           <Autocomplete
             multiple
+            sx={{ width: '100%' }}
             id="answer-words"
             options={[]}
             value={answerWords}
@@ -114,9 +115,8 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     [answerWords, locale, isLoading, isAnswerEmpty])
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: '5%', padding: 0 }}>
-      <CardContent
-        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <StyledContainer>
+      <StyledCardContent>
         <TextField
           id="letters-count"
           type="number"
@@ -145,11 +145,9 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
           inputValue={lettersKitInputValue}
           freeSolo
         />
-      </CardContent>
+      </StyledCardContent>
 
-      <ContentWrapper
-        style={{ width: '100%', display: 'flex', gap: '5px', justifyContent: 'center', flexWrap: 'wrap' }}
-      >
+      <ContentWrapper>
         {targetWord.map((item, index) =>
           <TextField
             key={index}
@@ -169,10 +167,10 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
 
       <Divider />
 
-      <ContentWrapper style={{ marginTop: '22px' }}>
+      <ContentWrapper margin>
         <Answer />
       </ContentWrapper>
-    </Container >
+    </StyledContainer >
   )
 })
 
