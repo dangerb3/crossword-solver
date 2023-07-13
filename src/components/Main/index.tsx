@@ -90,7 +90,8 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     setLettersKit(value)
   }
 
-  const handleInputChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string) => {
+  const handleInputChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string, reason: any) => {
+    if (reason === 'clear') setTargetWord([])
     if (validationRule && value.match(validationRule)) {
       setLettersKit((prev) => [...prev, value])
       setLettersKitInputValue('')
