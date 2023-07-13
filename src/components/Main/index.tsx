@@ -1,17 +1,19 @@
-import { Autocomplete, CircularProgress, Box, Divider, TextField, Typography } from '@mui/material'
 import React, { SyntheticEvent, memo, useEffect, useMemo, useState } from 'react'
+
+import { Autocomplete, CircularProgress, Box, Divider, TextField, Typography } from '@mui/material'
+import { TFunction } from 'i18next'
+import debounce from 'lodash.debounce'
+import { match } from 'ts-pattern'
+
+import { LanguagesStructure } from '../../constants/constants'
+import { Languages } from '../../types/types'
+import { findWord } from '../../utils/findWord'
+import { getVocabulary } from '../../utils/getVocabulary'
 import { ContentWrapper, StyledCardContent, StyledContainer } from './styles'
-import { findWord } from '../../utils/findWord';
-import debounce from 'lodash.debounce';
-import { TFunction } from 'i18next';
-import { Languages } from '../../types/types';
-import { LanguagesStructure } from '../../constants/constants';
-import { match, P } from 'ts-pattern';
-import { getVocabulary } from '../../utils/getVocabulary';
 
 type MainProps = {
-  changeLanguage: (language: Languages) => void,
-  locale: TFunction<"translation", undefined>,
+  changeLanguage: (language: Languages) => void
+  locale: TFunction<'translation', undefined>
   currentLanguage: Languages
 }
 
@@ -21,9 +23,12 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   const [lettersKit, setLettersKit] = useState<string[]>([])
   const [lettersKitInputValue, setLettersKitInputValue] = useState('')
   const [answerWords, setAnswerWords] = useState<string[]>([])
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
 
-  const validationRule = useMemo(() => LanguagesStructure.get(currentLanguage)?.validation || new RegExp(/^.*$/), [currentLanguage])
+  const validationRule = useMemo(
+    () => LanguagesStructure.get(currentLanguage)?.validation || new RegExp(/^.*$/),
+    [currentLanguage]
+  )
 
   useEffect(() => {
     let localeLettersKit = []
@@ -32,13 +37,13 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     switch (currentLanguage) {
       case Languages.ru:
         console.log('RU')
-        localeLettersKit = ["и", "и", "с", "с", "п", "а", "н", "е"];
-        localeTargetWord = ['', 'о', ''];
-        break;
+        localeLettersKit = ['и', 'и', 'с', 'с', 'п', 'а', 'н', 'е']
+        localeTargetWord = ['', 'о', '']
+        break
       case Languages.en:
-        localeLettersKit = ["g", "c", "i", "e", "n", "x", "t", "i",];
-        localeTargetWord = ['', 'x', '', '', '', '', '', 'g'];
-        break;
+        localeLettersKit = ['g', 'c', 'i', 'e', 'n', 'x', 't', 'i']
+        localeTargetWord = ['', 'x', '', '', '', '', '', 'g']
+        break
     }
 
     setIsLoading(true)
@@ -48,7 +53,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   }, [])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       setIsLoading(true)
       setVocabulary(await getVocabulary(currentLanguage))
       setIsLoading(false)
@@ -62,16 +67,23 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
     }
   }, [currentLanguage])
 
-  //TODO: sort imports
-
   useEffect(() => {
     const debouncedFindWord = debounce(() => {
       setIsLoading(true)
-      setAnswerWords(findWord(targetWord.map(item => item === '' ? '*' : item).toLocaleString().replaceAll(",", ""), lettersKit, vocabulary));
+      setAnswerWords(
+        findWord(
+          targetWord
+            .map((item) => (item === '' ? '*' : item))
+            .toLocaleString()
+            .replaceAll(',', ''),
+          lettersKit,
+          vocabulary
+        )
+      )
       setIsLoading(false)
-    }, 500);
+    }, 500)
 
-    debouncedFindWord();
+    debouncedFindWord()
   }, [targetWord, lettersKit, vocabulary])
 
   const handleChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string[]) => {
@@ -79,21 +91,27 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   }
 
   const handleInputChangeLettersKit = (e: SyntheticEvent<Element, Event>, value: string) => {
-    if ((validationRule && value.match(validationRule))) { setLettersKit(prev => [...prev, value]); setLettersKitInputValue('') }
+    if (validationRule && value.match(validationRule)) {
+      setLettersKit((prev) => [...prev, value])
+      setLettersKitInputValue('')
+    }
   }
 
-  const isAnswerEmpty = useMemo(() => Boolean(!answerWords?.length || answerWords.every(item => item === '')), [answerWords])
+  const isAnswerEmpty = useMemo(
+    () => Boolean(!answerWords?.length || answerWords.every((item) => item === '')),
+    [answerWords]
+  )
 
-  const Answer = useMemo(() =>
-    () =>
+  const Answer = useMemo(
+    () => () =>
       //@ts-ignore
       match([isLoading, isAnswerEmpty])
-        .with(([true, true || false]), () =>
-          <Box sx={{ textAlign: "center" }}>
+        .with([true, true || false], () => (
+          <Box sx={{ textAlign: 'center' }}>
             <CircularProgress disableShrink />
           </Box>
-        )
-        .with([false, false], () =>
+        ))
+        .with([false, false], () => (
           <Autocomplete
             multiple
             sx={{ width: '100%' }}
@@ -101,18 +119,14 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
             options={[]}
             value={answerWords}
             readOnly
-            renderInput={(params) => (
-              <TextField {...params} label={locale('main.possibleAnswerWords')} />
-            )}
+            renderInput={(params) => <TextField {...params} label={locale('main.possibleAnswerWords')} />}
             freeSolo
           />
-        )
-        .with([false, true], () =>
-          <Typography sx={{ textAlign: "center" }}>{locale('main.nothingFound')}</Typography>
-        )
-        .otherwise(() =>
-          null),
-    [answerWords, locale, isLoading, isAnswerEmpty])
+        ))
+        .with([false, true], () => <Typography sx={{ textAlign: 'center' }}>{locale('main.nothingFound')}</Typography>)
+        .otherwise(() => null),
+    [answerWords, locale, isLoading, isAnswerEmpty]
+  )
 
   return (
     <StyledContainer>
@@ -120,13 +134,12 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
         <TextField
           id="letters-count"
           type="number"
-          label={locale("main.targetLettersCount")}
+          label={locale('main.targetLettersCount')}
           variant="outlined"
           value={targetWord.length || ''}
           onChange={(e) => {
             const value = Number(e.target.value)
-            if (value >= 0 && value <= 17)
-              setTargetWord(Array(Number(value)).fill(''))
+            if (value >= 0 && value <= 17) setTargetWord(Array(Number(value)).fill(''))
           }}
           sx={{ marginBottom: '16px' }}
         />
@@ -137,9 +150,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
           options={[]}
           getOptionLabel={(option) => option}
           value={lettersKit}
-          renderInput={(params) => (
-            <TextField {...params} label={locale('main.lettersKit')} />
-          )}
+          renderInput={(params) => <TextField {...params} label={locale('main.lettersKit')} />}
           onInputChange={handleInputChangeLettersKit}
           onChange={handleChangeLettersKit}
           inputValue={lettersKitInputValue}
@@ -148,21 +159,23 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
       </StyledCardContent>
 
       <ContentWrapper>
-        {targetWord.map((item, index) =>
+        {targetWord.map((item, index) => (
           <TextField
             key={index}
-            size='small'
+            size="small"
             sx={{ width: '40px' }}
             value={targetWord[index]}
-            onChange={(e) => setTargetWord(prev => {
-              const value = e.target.value;
-              if (value.length <= 1 && (value.match(validationRule) || value === '')) {
-                prev[index] = e.target.value;
-              }
-              return prev.slice()
-            })}
+            onChange={(e) =>
+              setTargetWord((prev) => {
+                const value = e.target.value
+                if (value.length <= 1 && (value.match(validationRule) || value === '')) {
+                  prev[index] = e.target.value
+                }
+                return prev.slice()
+              })
+            }
           />
-        )}
+        ))}
       </ContentWrapper>
 
       <Divider />
@@ -170,7 +183,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
       <ContentWrapper margin>
         <Answer />
       </ContentWrapper>
-    </StyledContainer >
+    </StyledContainer>
   )
 })
 

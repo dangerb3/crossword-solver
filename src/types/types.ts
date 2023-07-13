@@ -1,15 +1,15 @@
 export type duplicatedLettersMapType = {
-  key: string,
+  key: string
   value: number
 }
 
 export enum Languages {
-  ru="ru",
-  en="en"
+  ru = 'ru',
+  en = 'en',
 }
 
 export type LanguagesType = {
-  flag: () => React.JSX.Element,
-  value: string,
+  flag: () => React.JSX.Element
+  value: string
   validation: RegExp
 }
