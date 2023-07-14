@@ -7,9 +7,10 @@ import { match } from 'ts-pattern'
 
 import { LanguagesStructure } from '../../constants/constants'
 import { Languages } from '../../types/types'
+import { Close } from '../../ui/Icons/Close'
 import { findWord } from '../../utils/findWord'
 import { getVocabulary } from '../../utils/getVocabulary'
-import { ContentWrapper, StyledCardContent, StyledContainer } from './styles'
+import { ContentWrapper, StyledCardContent, StyledClearButton, StyledContainer } from './styles'
 
 type MainProps = {
   changeLanguage: (language: Languages) => void
@@ -22,6 +23,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
   const [targetWord, setTargetWord] = useState<string[]>([])
   const [lettersKit, setLettersKit] = useState<string[]>([])
   const [lettersKitInputValue, setLettersKitInputValue] = useState('')
+  const [isCloseButtonVisible, setIsCloseButtonVisible] = useState(false)
   const [answerWords, setAnswerWords] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -178,13 +180,24 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
                 return prev.slice()
               })
             }
+            onFocus={() => setIsCloseButtonVisible(true)}
+            onBlur={() => setTimeout(() => setIsCloseButtonVisible(false), 100)}
           />
         ))}
+        <StyledClearButton
+          visible={isCloseButtonVisible}
+          onClick={() => {
+            setIsCloseButtonVisible(false)
+            setTargetWord([])
+          }}
+        >
+          <Close />
+        </StyledClearButton>
       </ContentWrapper>
 
       <Divider />
 
-      <ContentWrapper margin>
+      <ContentWrapper margin wide>
         <Answer />
       </ContentWrapper>
     </StyledContainer>
