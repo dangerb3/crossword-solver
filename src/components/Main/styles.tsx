@@ -31,5 +31,4 @@ export const StyledClearButton = styled(IconButton)<{ visible?: boolean }>`
   display: ${({ visible }) => (visible ? 'block' : 'none')};
   position: absolute;
   right: 10px;
-  color: rgba(0, 0, 0, 0.26);
 `
