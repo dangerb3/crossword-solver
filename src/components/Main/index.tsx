@@ -188,7 +188,7 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
           visible={isCloseButtonVisible}
           onClick={() => {
             setIsCloseButtonVisible(false)
-            setTargetWord([])
+            setTargetWord((prev) => prev.map((letter) => ''))
           }}
         >
           <Close />
