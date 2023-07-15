@@ -170,12 +170,12 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
             value={targetWord[index]}
             onChange={(e) =>
               setTargetWord((prev) => {
-                const value = e.target.value
+                const value = e.target.value.toLocaleLowerCase()
                 if (
                   value.length <= 1 &&
                   ((value.match(validationRule) && lettersKit.includes(value)) || value === '')
                 ) {
-                  prev[index] = e.target.value
+                  prev[index] = value
                 }
                 return prev.slice()
               })
