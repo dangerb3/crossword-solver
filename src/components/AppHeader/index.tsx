@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import { Box, ListItemText, AppBar, Toolbar, SelectChangeEvent } from '@mui/material'
+import { Box, ListItemText, AppBar, Toolbar, SelectChangeEvent, Link } from '@mui/material'
 import { TFunction } from 'i18next'
 
 import { LanguagesStructure, languageNamesArray, languageObjectsArray } from '../../constants/constants'
@@ -18,7 +18,11 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
     <Box>
       <AppBar position="static">
         <Toolbar>
-          <StyledTypography>Crossword Solver</StyledTypography>
+          <StyledTypography>
+            <Link href={origin} color={'#FFF'} underline="none">
+              Crossword Solver
+            </Link>
+          </StyledTypography>
           <StyledSelect
             value={currentLanguage ? LanguagesStructure.get(currentLanguage) : languageObjectsArray[0]}
             onChange={(e: SelectChangeEvent) => changeLanguage(e.target.value as Languages)}

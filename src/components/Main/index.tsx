@@ -133,73 +133,75 @@ const Main = memo(({ changeLanguage, locale, currentLanguage }: MainProps) => {
 
   return (
     <StyledContainer>
-      <StyledCardContent>
-        <TextField
-          id="letters-count"
-          type="number"
-          label={locale('main.targetLettersCount')}
-          variant="outlined"
-          value={targetWord.length || ''}
-          onChange={(e) => {
-            const value = Number(e.target.value)
-            if (value >= 0 && value <= 17) setTargetWord(Array(Number(value)).fill(''))
-          }}
-          sx={{ marginBottom: '16px' }}
-        />
-
-        <Autocomplete
-          multiple
-          id="letters-kit"
-          options={[]}
-          getOptionLabel={(option) => option}
-          value={lettersKit}
-          renderInput={(params) => <TextField {...params} label={locale('main.lettersKit')} />}
-          onInputChange={handleInputChangeLettersKit}
-          onChange={handleChangeLettersKit}
-          inputValue={lettersKitInputValue}
-          freeSolo
-        />
-      </StyledCardContent>
-
-      <ContentWrapper>
-        {targetWord.map((item, index) => (
+      <Box>
+        <StyledCardContent>
           <TextField
-            key={index}
-            size="small"
-            sx={{ width: '40px' }}
-            value={targetWord[index]}
-            onChange={(e) =>
-              setTargetWord((prev) => {
-                const value = e.target.value.toLocaleLowerCase()
-                if (
-                  value.length <= 1 &&
-                  ((value.match(validationRule) && lettersKit.includes(value)) || value === '')
-                ) {
-                  prev[index] = value
-                }
-                return prev.slice()
-              })
-            }
-            onFocus={() => setIsCloseButtonVisible(true)}
-            onBlur={() => setTimeout(() => setIsCloseButtonVisible(false), 100)}
+            id="letters-count"
+            type="number"
+            label={locale('main.targetLettersCount')}
+            variant="outlined"
+            value={targetWord.length || ''}
+            onChange={(e) => {
+              const value = Number(e.target.value)
+              if (value >= 0 && value <= 17) setTargetWord(Array(Number(value)).fill(''))
+            }}
+            sx={{ marginBottom: '16px' }}
           />
-        ))}
-        <StyledClearButton
-          visible={isCloseButtonVisible}
-          onClick={() => {
-            setIsCloseButtonVisible(false)
-            setTargetWord((prev) => prev.map((letter) => ''))
-          }}
-        >
-          <Close />
-        </StyledClearButton>
-      </ContentWrapper>
 
-      <Divider />
+          <Autocomplete
+            multiple
+            id="letters-kit"
+            options={[]}
+            getOptionLabel={(option) => option}
+            value={lettersKit}
+            renderInput={(params) => <TextField {...params} label={locale('main.lettersKit')} />}
+            onInputChange={handleInputChangeLettersKit}
+            onChange={handleChangeLettersKit}
+            inputValue={lettersKitInputValue}
+            freeSolo
+          />
+        </StyledCardContent>
 
-      <ContentWrapper margin wide>
-        <Answer />
-      </ContentWrapper>
+        <ContentWrapper>
+          {targetWord.map((item, index) => (
+            <TextField
+              key={index}
+              size="small"
+              sx={{ width: '40px' }}
+              value={targetWord[index]}
+              onChange={(e) =>
+                setTargetWord((prev) => {
+                  const value = e.target.value.toLocaleLowerCase()
+                  if (
+                    value.length <= 1 &&
+                    ((value.match(validationRule) && lettersKit.includes(value)) || value === '')
+                  ) {
+                    prev[index] = value
+                  }
+                  return prev.slice()
+                })
+              }
+              onFocus={() => setIsCloseButtonVisible(true)}
+              onBlur={() => setTimeout(() => setIsCloseButtonVisible(false), 100)}
+            />
+          ))}
+          <StyledClearButton
+            visible={isCloseButtonVisible}
+            onClick={() => {
+              setIsCloseButtonVisible(false)
+              setTargetWord((prev) => prev.map((letter) => ''))
+            }}
+          >
+            <Close />
+          </StyledClearButton>
+        </ContentWrapper>
+
+        <Divider />
+
+        <ContentWrapper margin wide>
+          <Answer />
+        </ContentWrapper>
+      </Box>
     </StyledContainer>
   )
 })

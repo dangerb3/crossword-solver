@@ -13,7 +13,14 @@ export const ContentWrapper = styled('div')<{ margin?: boolean; wide?: boolean }
 `
 
 export const StyledContainer = ({ ...props }) => (
-  <Container maxWidth="md" sx={{ marginTop: '5%', padding: 0 }} {...props} />
+  <Container
+    maxWidth="md"
+    sx={{
+      padding: '10% 0 10% 0',
+      flexGrow: 1,
+    }}
+    {...props}
+  />
 )
 
 export const StyledCardContent = ({ ...props }) => (
