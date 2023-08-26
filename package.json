@@ -1,6 +1,6 @@
 {
   "name": "crossword-solver",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "private": true,
   "dependencies": {
     "@fontsource/roboto": "^5.0.4",
