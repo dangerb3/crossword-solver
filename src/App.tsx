@@ -1,7 +1,7 @@
 import React, { Suspense, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Container } from '@mui/material'
 
 import './App.css'
 import { AppHeader } from './components/AppHeader'
@@ -24,9 +24,18 @@ function App() {
     [i18n.language]
   )
 
+  const fallbackComponent = useMemo(
+    () => (
+      <Container sx={{ margin: 'auto', textAlign: 'center' }}>
+        <CircularProgress size={100} thickness={2} />
+      </Container>
+    ),
+    []
+  )
+
   return (
     <div className="App">
-      <Suspense fallback={<CircularProgress />}>
+      <Suspense fallback={fallbackComponent}>
         <AppHeader changeLanguage={changeLanguage} locale={t} currentLanguage={currentLanguage} />
         <Main changeLanguage={changeLanguage} locale={t} currentLanguage={currentLanguage} />
       </Suspense>
