@@ -13,3 +13,12 @@ export type LanguagesType = {
   value: string
   validation: RegExp
 }
+
+export type LanguagesComparisonType = {
+  language: Languages, 
+  hash: string
+}
+
+export type LanguagesStoreType = LanguagesComparisonType & {
+  data: JSON
+}
