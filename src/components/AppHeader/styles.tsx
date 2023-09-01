@@ -1,4 +1,5 @@
 import { Typography, MenuItem, Select, Box } from '@mui/material'
+import styled, { keyframes } from 'styled-components'
 
 export const StyledMenuItem = ({ ...props }) => (
   <MenuItem
@@ -40,3 +41,13 @@ export const StyledSelect = ({ ...props }) => (
     {...props}
   />
 )
+
+export const appearAnimation = keyframes`
+ 0% { opacity: 0 }
+ 100% { opacity: 1}
+`
+
+export const AnimatedText = styled('a')`
+  opacity: 1;
+  animation: ${appearAnimation} 1s ease-in forwards;
+`

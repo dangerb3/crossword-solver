@@ -5,7 +5,7 @@ import { TFunction } from 'i18next'
 
 import { LanguagesStructure, languageNamesArray, languageObjectsArray } from '../../constants/constants'
 import { Languages, LanguagesType } from '../../types/types'
-import { StyledSelect, StyledBox, StyledMenuItem, StyledTypography } from './styles'
+import { StyledSelect, StyledBox, StyledMenuItem, StyledTypography, AnimatedText } from './styles'
 
 type AppHeaderProps = {
   changeLanguage: (language: Languages) => void
@@ -20,7 +20,7 @@ export const AppHeader = memo(({ changeLanguage, currentLanguage }: AppHeaderPro
         <Toolbar>
           <StyledTypography>
             <Link href={origin} color={'#FFF'} underline="none">
-              Crossword Solver
+              <AnimatedText>Crossword Solver</AnimatedText>
             </Link>
           </StyledTypography>
           <StyledSelect
